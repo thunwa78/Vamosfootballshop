@@ -1,0 +1,149 @@
+﻿<Page x:Class="login_store.AdminManageBrandsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Background="Transparent"
+      Title="AdminManageBrandsPage" Loaded="Page_Loaded">
+
+    <Page.Resources>
+        <Style x:Key="ProActionButtonGreenStyle" TargetType="Button">
+            <Setter Property="Background" Value="#2ECC71"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Padding" Value="20,10"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" CornerRadius="8">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#27AE60"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="SecondaryActionButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#ADADAD"/>
+            <Setter Property="BorderBrush" Value="#ADADAD"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="5">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#333333"/>
+                                <Setter Property="Foreground" Value="White"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="White"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="👟 จัดการแบรนด์สินค้า (Brands)" Foreground="White" FontSize="24" FontWeight="Bold" Margin="0,0,0,10"/>
+
+        <Border Grid.Row="1" Background="#1AFFFFFF" CornerRadius="5" Padding="15" Margin="0,0,0,10">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0" Text="ชื่อแบรนด์:" Foreground="White" FontSize="14" VerticalAlignment="Center" Margin="0,0,10,0"/>
+
+                <TextBox Grid.Column="1" x:Name="txtBrandName" Padding="5" Height="30" VerticalContentAlignment="Center"/>
+
+                <Button Grid.Column="2" x:Name="btnSave" Content="บันทึก" 
+                        Style="{StaticResource ProActionButtonGreenStyle}" 
+                        Padding="15,5" Margin="10,0,0,0"
+                        Click="btnSave_Click"/>
+
+                <Button Grid.Column="3" x:Name="btnCancel" Content="ยกเลิก" 
+                        Style="{StaticResource SecondaryActionButtonStyle}"
+                        Padding="15,5" Margin="5,0,0,0"
+                        Click="btnCancel_Click" Visibility="Collapsed"/>
+            </Grid>
+        </Border>
+
+        <DataGrid Grid.Row="2" x:Name="BrandsDataGrid"
+                  AutoGenerateColumns="False" 
+                  IsReadOnly="True"
+                  Background="#1AFFFFFF"
+                  BorderBrush="#333"
+                  Foreground="White"
+                  CanUserAddRows="False"
+                  SelectionMode="Single">
+
+            <DataGrid.Resources>
+                <Style TargetType="DataGridColumnHeader">
+                    <Setter Property="Background" Value="#3AFFFFFF"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                </Style>
+                <Style TargetType="DataGridRow">
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#2AFFFFFF"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+                <Style TargetType="DataGridCell">
+                    <Setter Property="BorderBrush" Value="#222"/>
+                    <Setter Property="Foreground" Value="White"/>
+                </Style>
+            </DataGrid.Resources>
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding BrandId}" Width="50"/>
+                <DataGridTextColumn Header="ชื่อแบรนด์" Binding="{Binding Name}" Width="*"/>
+
+                <DataGridTemplateColumn Header="Actions" Width="150">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+
+                                <Button Content="แก้ไข"
+                                        Style="{StaticResource SecondaryActionButtonStyle}"
+                                        Background="DodgerBlue" Foreground="White"
+                                        Margin="5" Click="btnEdit_Click"
+                                        Tag="{Binding}"/>
+
+                                <Button Content="ลบ"
+                                        Style="{StaticResource SecondaryActionButtonStyle}"
+                                        Background="DarkRed" Foreground="White"
+                                        Margin="5" Click="btnDelete_Click"
+                                        Tag="{Binding BrandId}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Page>

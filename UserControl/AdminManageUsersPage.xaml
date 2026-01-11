@@ -1,0 +1,80 @@
+﻿<Page x:Class="login_store.AdminManageUsersPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Background="Transparent"
+      Title="AdminManageUsersPage" Loaded="Page_Loaded">
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="👥 จัดการลูกค้า" Foreground="White" FontSize="24" FontWeight="Bold" Margin="0,0,0,10"/>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,10">
+            <TextBox x:Name="txtSearch" Width="250" Margin="0,0,10,0" KeyUp="txtSearch_KeyUp"
+                     Background="#444" Foreground="White" BorderBrush="#777" BorderThickness="1" Padding="5,8"
+                     VerticalContentAlignment="Center" Height="35"
+                     ToolTip="ค้นหา Username หรือ Email"/>
+
+            <Button Content="ค้นหา" Click="SearchButton_Click" 
+                    Style="{StaticResource ProActionButtonStyle}"
+                    Padding="15,8"/>
+        </StackPanel>
+
+        <DataGrid Grid.Row="2" x:Name="UsersDataGrid"
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True"
+                  Background="#1AFFFFFF"
+                  BorderBrush="#333"
+                  Foreground="White"
+                  CanUserAddRows="False"
+                  SelectionMode="Single">
+
+            <DataGrid.Resources>
+                <Style TargetType="DataGridColumnHeader">
+                    <Setter Property="Background" Value="#3AFFFFFF"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                </Style>
+                <Style TargetType="DataGridRow">
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#2AFFFFFF"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+                <Style TargetType="DataGridCell">
+                    <Setter Property="BorderBrush" Value="#222"/>
+                    <Setter Property="Foreground" Value="White"/>
+                </Style>
+            </DataGrid.Resources>
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50"/>
+                <DataGridTextColumn Header="Username" Binding="{Binding Username}" Width="*"/>
+                <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="1.5*"/>
+                <DataGridTextColumn Header="ชื่อ-นามสกุล" Binding="{Binding FullName}" Width="1.5*"/>
+                <DataGridTextColumn Header="Role" Binding="{Binding Role}" Width="Auto"/>
+                <DataGridTextColumn Header="โทรศัพท์" Binding="{Binding Phone}" Width="*"/>
+
+                <DataGridTemplateColumn Header="Actions" Width="150">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <Button Content="ดูประวัติซื้อ" 
+                                        Style="{StaticResource SecondaryActionButtonStyle}"
+                                        Padding="10,5"
+                                        Click="ViewOrders_Click"
+                                        Tag="{Binding Id}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Page>
